@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+  <head>c
+  ​<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <style>
+      /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+      #map {
+        height: 100%;
+      }
+      /* Optional: Makes the sample page fill the window. */
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="map"></div>
+    <button>reload</button>
+    <script>
+    var map;
+    var markers = []; // Create a marker array to hold your markers
+var beaches = [
+    [36,127.1],
+    [36,127.2],
+    [36,127.3],
+    [36,127.4],
+    [36,127.5]
+];
+    function setMarkers(locations) {
+
+    for (var i = 0; i < beaches.length; i++) {                                     
+//      var coords = points.features[i].geometry.coordinates;
+ 
+        marker = new google.maps.Marker({                                   
+          position: new google.maps.LatLng(beaches[i][0]+Math.random(),beaches[i][1]+Math.random()),  
+          animation: google.maps.Animation.DROP, 
+          map: map
+        });     
+        // Push marker to markers array
+        markers.push(marker);
+    }
+}
+function setMapOnAll(map) {
+        for (var i = 0; i < markers.length; i++) {
+          console.log(markers[i]);
+          markers[i].setMap(map);
+        }
+      }
+
+function reloadMarkers() {
+ 
+    // Loop through markers and set map to null for each
+    setMapOnAll(null);
+
+    // Reset the markers array
+    markers = [];
+    
+    // Call set markers to re-add markers
+    setMarkers(beaches);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  //////////////////
+
+
+
+   function initMap() {                   
+    map = new google.maps.Map(document.getElementById('map'), {         
+      center: new google.maps.LatLng(36, 127),             
+      zoom: 4,
+      mapTypeId:'satellite'                                                               
+    });                                             
+
+//    var points = JSON.parse('{{ points|safe }}');                           
+    var marker;                                                                    
+    
+    $(document).ready(function(){
+    $("button").click(function(){
+      reloadMarkers();
+    });
+});
+
+                                                                      
+  } 
+
+
+    </script>
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBhZH_olcBwOn8mWyKci9BoguPG4GXgSsQ&callback=initMap">
+    </script>
+  </body>
+</html>

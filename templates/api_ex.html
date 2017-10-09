@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+       #map {
+        height: 400px;
+        width: 100%;
+       }
+    </style>
+    <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?clientId=YOUR_CLIENT_ID"> 
+     var btns = $(".buttons > input");
+    </script>
+  </head>
+  <body>
+   <script src="http://code.jquery.com/jquery-1.10.2.js"></script>
+    <div id="map"></div>
+    <script>
+    var map = new naver.maps.Map('map', {
+    center: new naver.maps.LatLng(37.3595704, 127.105399),
+    zoom: 10
+});
+
+btns.on("click", function(e) {
+    e.preventDefault();
+
+    var mapTypeId = this.id;
+
+    if (map.getMapTypeId() !== naver.maps.MapTypeId[mapTypeId]) {
+        map.setMapTypeId(naver.maps.MapTypeId[mapTypeId]); // Áöµµ À¯Çü º¯°æÇÏ±â
+
+        btns.removeClass("control-on");
+        $(this).addClass("control-on");
+    }
+});
+    </script>
+  </body>
+</html>

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+      #map-canvas {
+    height: 400px;
+  }
+    </style>
+  </head>
+  <body>
+
+
+  <div id="map-canvas"></div>
+  <input type="button" value="Reload markers" id="reloadMarkers">
+    <script>
+   var map;
+var markers = []; // Create a marker array to hold your markers
+var beaches = [
+    ['Bondi Beach', 10, 10, 4],
+    ['Coogee Beach', 10, 11, 5],
+    ['Cronulla Beach', 10, 12, 3],
+    ['Manly Beach', 10, 13, 2],
+    ['Maroubra Beach', 10, 14, 1]
+];
+
+function setMarkers(locations) {
+
+    for (var i = 0; i < locations.length; i++) {
+        var beach = locations[i];
+        var myLatLng = new google.maps.LatLng(beach[1], beach[2]);
+        var marker = new google.maps.Marker({
+            position: myLatLng,
+            map: map,
+            animation: google.maps.Animation.DROP,
+            title: beach[0],
+            zIndex: beach[3]
+        });
+        
+        // Push marker to markers array
+        markers.push(marker);
+    }
+}
+
+function reloadMarkers() {
+ 
+    // Loop through markers and set map to null for each
+    for (var i=0; i<markers.length; i++) {
+     
+        markers[i].setMap(null);
+    }
+    
+    // Reset the markers array
+    markers = [];
+    
+    // Call set markers to re-add markers
+    setMarkers(beaches);
+}
+
+function initialize() {
+    
+    map = new google.maps.Map(document.getElementById('map'), {         
+      center: new google.maps.LatLng(points.features[0].geometry.coordinates[1], points.features[0].geometry.coordinates[0]),             
+      zoom: 18,
+      mapTypeId:'satellite'                                                               
+    });
+    setMarkers(beaches);
+    
+    // Bind event listener on button to reload markers
+    document.getElementById('reloadMarkers').addEventListener('click', reloadMarkers);
+}
+
+initialize();
+
+    </script>
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBhZH_olcBwOn8mWyKci9BoguPG4GXgSsQ&callback=initMap">
+    </script>
+  </body>
+</html>

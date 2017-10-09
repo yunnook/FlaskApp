@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <script>
+  function timedRefreash(timeoutPeriod){
+    setTimeout("location.reload(true);",timeoutPeriod)
+  }
+  window.onload = timedRefreash(5000);
+  </script>
+    <style>
+      /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+      #map {
+        height: 100%;
+      }
+      /* Optional: Makes the sample page fill the window. */
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="map"></div>
+    <script>
+   function initMap() { 
+    var points = JSON.parse('{{ points|safe }}');
+    var map = new google.maps.Map(document.getElementById('map'), {         
+      center: new google.maps.LatLng(points.features[0].geometry.coordinates[1], points.features[0].geometry.coordinates[0]),             
+      zoom: 18,
+      mapTypeId:'satellite'                                                               
+    });                                             
+
+    //var points = JSON.parse('{{ points|safe }}');                           
+    var marker;                                                                    
+      for (var i = 0; i < points.features.length; i++) {                                     
+      var coords = points.features[i].geometry.coordinates;
+ 
+        marker = new google.maps.Marker({                                   
+          position: new google.maps.LatLng(coords[1],coords[0]),   
+          map: map
+          //label: coords[1] + ' '+coords[0]                                                         
+        });                                                                 
+    } 
+
+      console.log(points.features[0].geometry.coordinates[0]);
+      console.log(points.features[0].geometry.coordinates[1]);
+                                                                      
+  }   
+
+    </script>
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBhZH_olcBwOn8mWyKci9BoguPG4GXgSsQ&callback=initMap">
+    </script>
+  </body>
+</html>
